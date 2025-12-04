@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  # The AI Brain (Python)
+  brain:
+    build: ./brain
+    ports:
+      - "5000:5000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    networks:
+      - ghost-net
+
+  # The SSH Muscle (Go)
+  muscle:
+    build: ./muscle
+    ports:
+      - "2222:2222"
+    depends_on:
+      - brain
+    networks:
+      - ghost-net
+
+networks:
+  ghost-net:
+    driver: bridge
